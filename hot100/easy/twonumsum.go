@@ -22,6 +22,7 @@ func TwoSum(nums []int, target int) []int {
 		return nil
 	}
 
+	// 用map存放target-num和下标
 	set := make(map[int]int)
 	for i := 0; i < len(nums); i++ {
 		if val, ok := set[nums[i]]; ok {
