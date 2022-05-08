@@ -9,8 +9,3 @@ func maxDepth(root *TreeNode) int {
 
 	return GetMax(maxDepth(root.Left), maxDepth(root.Right)) + 1
 }
-
-//
-func maxDepth1(root *TreeNode) int {
-
-}
