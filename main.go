@@ -1,13 +1,10 @@
 package main
 
-import (
-	"code-learn-go/hot100/mid"
-	"fmt"
-)
+import "fmt"
 
 func main() {
-	arr := [][]int{{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}}
-	order := mid.SpiralOrder(arr)
-	fmt.Print(order)
+	for k, v := range "hello world" {
+		fmt.Printf("k = [%+v],v = [%+v]", k, v)
+	}
 
 }
