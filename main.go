@@ -1,10 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"code-learn-go/hot100/mid"
+	"fmt"
+)
 
 func main() {
-	for k, v := range "hello world" {
-		fmt.Printf("k = [%+v],v = [%+v]", k, v)
-	}
-
+	topKFrequent := mid.TopKFrequent([]int{1, 1, 1, 2, 2, 2, 3, 3, 4, 4, 4, 5}, 2)
+	fmt.Print(topKFrequent)
 }
