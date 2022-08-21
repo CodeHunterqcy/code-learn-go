@@ -25,10 +25,36 @@ func main() {
 	//wg.Wait()              // main要等待。。。
 	//
 	////time.Sleep(5*time.Second)
+	doWork := func(done <-chan interface{}, strings <-chan string) <-chan interface{} { //1
+		terminated := make(chan interface{})
+		go func() {
+			defer fmt.Println("doWork exited.")
+			defer close(terminated)
+			for {
+				select {
+				case s := <-strings:
+					// Do something interesting
+					fmt.Println(s)
+				case <-done: //2
+					return
+				}
+			}
+		}()
+		return terminated
+	}
 
-	str := "abc"
-	fmt.Println(countSubstrings(str))
-	fmt.Println(str[0:len(str)])
+	done := make(chan interface{})
+	terminated := doWork(done, nil)
+
+	go func() { //3
+		// Cancel the operation after 1 second.
+		time.Sleep(1 * time.Second)
+		fmt.Println("Canceling doWork goroutine...")
+		close(done)
+	}()
+
+	<-terminated //4
+	fmt.Println("Done.")
 }
 
 func countSubstrings(s string) int {
