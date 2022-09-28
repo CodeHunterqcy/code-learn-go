@@ -26,6 +26,24 @@ func main() {
 	//
 	////time.Sleep(5*time.Second)
 
+	str := "abc"
+	var res []string
+	var dfs func(int, string)
+	dfs = func(n int, path string) {
+		if n == len(str) {
+			res = append(res, path)
+			return
+		}
+		for _, s := range str {
+			if string(s) == path {
+				continue
+			}
+			dfs(n+1, path+string(s))
+		}
+	}
+	dfs(0, "")
+	fmt.Println(res)
+
 }
 
 func countSubstrings(s string) int {
