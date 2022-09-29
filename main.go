@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"runtime"
 	"sync"
 	"time"
 )
@@ -27,25 +26,33 @@ func main() {
 	//
 	////time.Sleep(5*time.Second)
 
-	str := "abc"
-	var res []string
-	var dfs func(int, string)
-	dfs = func(n int, path string) {
-		if n == len(str) {
-			res = append(res, path)
+	nums := []int{1, 1, 2, 2}
+	var res [][]int
+	used := make([]bool, len(nums))
+	var dfs func([]int)
+	dfs = func(path []int) {
+		if len(path) == len(nums) {
+			temp := make([]int, len(nums))
+			copy(temp, path)
+			res = append(res, temp)
+			// res = append(res, path)
 			return
 		}
-		for _, s := range str {
-			if string(s) == path {
+
+		for i := 0; i < len(nums); i++ {
+			if used[i] || i > 0 && nums[i] == nums[i-1] && used[i-1] {
 				continue
 			}
-			dfs(n+1, path+string(s))
+			used[i] = true
+			path = append(path, nums[i])
+			dfs(path)
+			used[i] = false
+			path = path[:len(path)-1]
 		}
 	}
-	dfs(0, "")
-	fmt.Println(res)
-	runtime.Gosched()
 
+	dfs(make([]int, len(res)))
+	fmt.Println(res)
 }
 
 func countSubstrings(s string) int {
