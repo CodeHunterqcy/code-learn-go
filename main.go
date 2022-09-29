@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"runtime"
 	"sync"
 	"time"
 )
@@ -43,6 +44,7 @@ func main() {
 	}
 	dfs(0, "")
 	fmt.Println(res)
+	runtime.Gosched()
 
 }
 
