@@ -64,3 +64,33 @@ func nextPermutation(nums []int) {
 		j--
 	}
 }
+
+// nextPermutation1
+func nextPermutation1(nums []int) {
+	if len(nums) <= 1 {
+		return
+	}
+	i, j, k := len(nums)-2, len(nums)-1, len(nums)-1
+	// 防止例如case：【3，2，1】下标越界
+	for i >= 0 && nums[i] >= nums[j] {
+		i--
+		j--
+	}
+
+	if i >= 0 {
+		for nums[i] >= nums[k] {
+			k--
+		}
+		nums[i], nums[k] = nums[k], nums[i]
+
+	}
+
+	n := j
+	m := len(nums) - 1
+	for n < m {
+		nums[n], nums[m] = nums[m], nums[n]
+		n++
+		m--
+	}
+
+}

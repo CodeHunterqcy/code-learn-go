@@ -25,34 +25,45 @@ func main() {
 	//wg.Wait()              // main要等待。。。
 	//
 	////time.Sleep(5*time.Second)
+	fmt.Println(longestValidParentheses("(()()"))
 
-	nums := []int{1, 1, 2, 2}
-	var res [][]int
-	used := make([]bool, len(nums))
-	var dfs func([]int)
-	dfs = func(path []int) {
-		if len(path) == len(nums) {
-			temp := make([]int, len(nums))
-			copy(temp, path)
-			res = append(res, temp)
-			// res = append(res, path)
-			return
-		}
-
-		for i := 0; i < len(nums); i++ {
-			if used[i] || i > 0 && nums[i] == nums[i-1] && used[i-1] {
+}
+func longestValidParentheses(s string) int {
+	var res int
+	for i := 0; i < len(s); i++ {
+		for j := i; j < len(s); j++ {
+			if (j-i+1)%2 == 1 {
 				continue
 			}
-			used[i] = true
-			path = append(path, nums[i])
-			dfs(path)
-			used[i] = false
-			path = path[:len(path)-1]
+			if isValid(s[i : j+1]) {
+				if j-i+1 > res {
+					res = j - i + 1
+				}
+			}
+		}
+	}
+	return res
+}
+func isValid(s string) bool {
+	if len(s)%2 == 1 {
+		return false
+	}
+	mapKey := map[byte]byte{
+		')': '(',
+	}
+
+	stack := make([]byte, 0)
+	for i := 0; i < len(s); i++ {
+		if s[i] == '(' {
+			stack = append(stack, s[i])
+		} else if len(stack) > 0 && mapKey[s[i]] == stack[len(stack)-1] {
+			stack = stack[:len(stack)-1]
+		} else {
+			return false
 		}
 	}
 
-	dfs(make([]int, len(res)))
-	fmt.Println(res)
+	return len(stack) == 0
 }
 
 func countSubstrings(s string) int {
