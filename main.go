@@ -25,8 +25,32 @@ func main() {
 	//wg.Wait()              // main要等待。。。
 	//
 	////time.Sleep(5*time.Second)
-	fmt.Println(longestValidParentheses("(()()"))
+	fmt.Println(search([]int{3, 1}, 1))
 
+}
+func search(nums []int, target int) int {
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := (right-left)/2 + left
+		fmt.Printf("left=[%+v],right=[%+v],mid=[%+v]\n", left, right, mid)
+		if nums[mid] == target {
+			return mid
+		}
+		if nums[mid] >= nums[left] { //说明在前一段上
+			if target >= nums[left] && target < nums[mid] {
+				right = mid - 1
+			} else {
+				left = mid + 1
+			}
+		} else {
+			if target <= nums[right] && target > nums[mid] {
+				left = mid + 1
+			} else {
+				right = mid - 1
+			}
+		}
+	}
+	return -1
 }
 func longestValidParentheses(s string) int {
 	var res int
