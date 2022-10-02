@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"sort"
 	"sync"
 	"time"
 )
@@ -25,14 +26,87 @@ func main() {
 	//wg.Wait()              // main要等待。。。
 	//
 	////time.Sleep(5*time.Second)
-	fmt.Println(search([]int{3, 1}, 1))
 
+	fmt.Println(combinationSum([]int{2, 3, 6, 7}, 7))
+
+}
+
+func combinationSum(candidates []int, target int) [][]int {
+
+	res := make([][]int, 0)
+	path := make([]int, 0)
+	sum := 0
+
+	var dfs func(int)
+	dfs = func(start int) {
+		if sum == target {
+			temp := make([]int, len(path))
+			copy(temp, path)
+			res = append(res, temp)
+			return
+		}
+		if sum > target {
+			return
+		}
+		for i := start; i < len(candidates); i++ {
+			sum += candidates[i]
+			path = append(path, candidates[i])
+			dfs(i)
+			path = path[:len(path)-1]
+			sum -= candidates[i]
+		}
+	}
+	dfs(0)
+	return res
+}
+
+func search1(nums []int, target int) int {
+	res := -1
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := (right-left)/2 + left
+		if nums[mid] > target {
+			right = mid - 1
+			res = mid
+		} else {
+			left = mid + 1
+		}
+	}
+
+	return res
+}
+func search2(nums []int, target int) int {
+
+	left, right := 0, len(nums)-1
+	for left <= right {
+		mid := (right-left)/2 + left
+		if nums[mid] == target {
+			return mid
+		} else if nums[mid] < target {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+
+	return -1
+}
+
+func searchRange(nums []int, target int) []int {
+	leftmost := sort.SearchInts(nums, target)
+	fmt.Println(leftmost)
+	if leftmost == len(nums) || nums[leftmost] != target {
+		return []int{-1, -1}
+	}
+	rightmost := sort.SearchInts(nums, target+1) - 1
+	fmt.Println(rightmost)
+	return []int{leftmost, rightmost}
 }
 func search(nums []int, target int) int {
 	left, right := 0, len(nums)-1
 	for left <= right {
 		mid := (right-left)/2 + left
-		fmt.Printf("left=[%+v],right=[%+v],mid=[%+v]\n", left, right, mid)
+
 		if nums[mid] == target {
 			return mid
 		}
