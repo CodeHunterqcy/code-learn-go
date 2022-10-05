@@ -27,8 +27,35 @@ func main() {
 	//
 	////time.Sleep(5*time.Second)
 
-	fmt.Println(combinationSum([]int{2, 3, 6, 7}, 7))
+	matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
 
+	// 先行变列
+	len := len(matrix)
+	for i := 0; i < len; i++ {
+		for j := i; j < len; j++ {
+			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+		}
+	}
+
+	// 再对称反转
+	for i := 0; i < len; i++ {
+		for j := 0; j < len/2; j++ {
+			matrix[i][j], matrix[i][len-j-1] = matrix[i][len-j-1], matrix[i][j]
+		}
+	}
+
+	fmt.Println(matrix)
+
+}
+
+func test(nums [][]int) [][]int {
+	for i := 0; i < len(nums); i++ {
+		for j := 1; j < len(nums); j++ {
+			nums[i][j], nums[j][i] = nums[j][i], nums[i][j]
+		}
+	}
+
+	return nums
 }
 
 func combinationSum(candidates []int, target int) [][]int {
