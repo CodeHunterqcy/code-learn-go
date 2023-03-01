@@ -27,24 +27,40 @@ func main() {
 	//
 	////time.Sleep(5*time.Second)
 
-	matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
+	//matrix := [][]int{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}
 
 	// 先行变列
-	len := len(matrix)
-	for i := 0; i < len; i++ {
-		for j := i; j < len; j++ {
-			matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+	//len := len(matrix)
+	//for i := 0; i < len; i++ {
+	//	for j := i; j < len; j++ {
+	//		matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+	//	}
+	//}
+	//
+	//// 再对称反转
+	//for i := 0; i < len; i++ {
+	//	for j := 0; j < len/2; j++ {
+	//		matrix[i][j], matrix[i][len-j-1] = matrix[i][len-j-1], matrix[i][j]
+	//	}
+	//}
+
+	//fmt.Println(matrix)
+
+	chanTest := make(chan int, 3)
+	chanTest <- 1
+	chanTest <- 2
+	chanTest <- 3
+	fmt.Println(len(chanTest), cap(chanTest))
+
+	for {
+		val, ok := <-chanTest
+		if !ok {
+			break
 		}
+		fmt.Println(val)
 	}
 
-	// 再对称反转
-	for i := 0; i < len; i++ {
-		for j := 0; j < len/2; j++ {
-			matrix[i][j], matrix[i][len-j-1] = matrix[i][len-j-1], matrix[i][j]
-		}
-	}
-
-	fmt.Println(matrix)
+	arr1 := new([]int)
 
 }
 
