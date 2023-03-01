@@ -59,9 +59,6 @@ func main() {
 		}
 		fmt.Println(val)
 	}
-
-	arr1 := new([]int)
-
 }
 
 func test(nums [][]int) [][]int {
