@@ -45,20 +45,12 @@ func main() {
 	//}
 
 	//fmt.Println(matrix)
-
-	chanTest := make(chan int, 3)
-	chanTest <- 1
-	chanTest <- 2
-	chanTest <- 3
-	fmt.Println(len(chanTest), cap(chanTest))
-
-	for {
-		val, ok := <-chanTest
-		if !ok {
-			break
-		}
-		fmt.Println(val)
+	str1 := "123123中文测试3213"
+	str2 := []rune(str1)
+	for _, s := range str2 {
+		fmt.Printf("%c\n", s)
 	}
+
 }
 
 func test(nums [][]int) [][]int {
